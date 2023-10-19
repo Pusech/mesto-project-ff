@@ -9,6 +9,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Mesto</title>
     <link rel="stylesheet" href="./pages/index.css" />
+    <script src="./scripts/cards.js" defer></script>
+    <script src="./scripts/index.js" defer></script>
   </head>
   <body class="page">
     <div class="page__content">
@@ -27,10 +29,18 @@
           ></div>
           <div class="profile__info">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
-            <button class="profile__edit-button" type="button"></button>
+            <button
+              aria-label="Редактировать профиль"
+              class="profile__edit-button"
+              type="button"
+            ></button>
             <p class="profile__description">Исследователь океана</p>
           </div>
-          <button class="profile__add-button" type="button"></button>
+          <button
+            aria-label="Добавить фото"
+            class="profile__add-button"
+            type="button"
+          ></button>
         </section>
         <section class="places page__section">
           <ul class="places__list"></ul>
@@ -41,7 +51,11 @@
       </footer>
       <div class="popup popup_type_edit">
         <div class="popup__content">
-          <button type="button" class="popup__close"></button>
+          <button
+            aria-label="Закрыть окно"
+            type="button"
+            class="popup__close"
+          ></button>
           <h3 class="popup__title">Редактировать профиль</h3>
           <form class="popup__form" name="edit-profile">
             <input
@@ -67,7 +81,11 @@
       </div>
       <div class="popup popup_type_new-card">
         <div class="popup__content">
-          <button type="button" class="popup__close"></button>
+          <button
+            aria-label="Закрыть окно"
+            type="button"
+            class="popup__close"
+          ></button>
           <h3 class="popup__title">Новое место</h3>
           <form class="popup__form" name="new-place">
             <input
@@ -92,25 +110,35 @@
       </div>
       <div class="popup popup_type_image">
         <div class="popup__content popup__content_content_image">
-          <button type="button" class="popup__close"></button>
+          <button
+            aria-label="Закрыть окно"
+            type="button"
+            class="popup__close"
+          ></button>
           <img src="" alt="" class="popup__image" />
           <p class="popup__caption"></p>
         </div>
       </div>
     </div>
-    <script src="./scripts/cards.js"></script>
-    <script src="./scripts/index.js" defer></script>
 
     <!--Относится к реализации 4-го спринта-->
     <template id="card-template">
       <!--Про тег темплейт студенты узнают из уроков 4-го спринта-->
       <li class="places__item card">
         <img class="card__image" src="" alt="" />
-        <button type="button" class="card__delete-button"></button>
+        <button
+          aria-label="Удалить карточку"
+          type="button"
+          class="card__delete-button"
+        ></button>
         <!--Фоновое, инлайном-->
         <div class="card__description">
           <h2 class="card__title"></h2>
-          <button type="button" class="card__like-button"></button>
+          <button
+            aria-label="Нравится"
+            type="button"
+            class="card__like-button"
+          ></button>
         </div>
       </li>
     </template>
