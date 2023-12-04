@@ -24,6 +24,41 @@
             class="profile__image"
             style="background-image: url(<%=require('./images/avatar.jpg')%>)"
           ></div>
+          <img
+            class="edit-icon"
+            src="<%=require('./images/edit-icon.svg')%>"
+            alt=""
+          />
+
+          <!-- Попап для изменения картинки -->
+          <div class="popup popup_type_profile-image">
+            <div class="popup__content">
+              <button
+                aria-label="Закрыть окно"
+                type="button"
+                class="popup__close"
+              ></button>
+              <h3 class="popup__title">Обновить картинку профиля</h3>
+              <form class="popup__form" name="edit-image">
+                <input
+                  type="url"
+                  name="profile-image"
+                  class="popup__input popup__input_type_profile-image"
+                  placeholder="Ссылка на картинку"
+                  id="profile-image-input"
+                  required
+                />
+                <span class="popup__input-error profile-image-input-error"
+                  >Необходимо заполнить поля</span
+                >
+                <button type="submit" class="button popup__button">
+                  Сохранить
+                </button>
+              </form>
+            </div>
+          </div>
+          <!-- Попап для изменения картинки/ -->
+
           <div class="profile__info">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
             <button
@@ -46,6 +81,7 @@
       <footer class="footer page__section">
         <p class="footer__copyright">© 2021 Mesto Russia</p>
       </footer>
+
       <div class="popup popup_type_edit">
         <div class="popup__content">
           <button
@@ -60,16 +96,31 @@
               name="name"
               class="popup__input popup__input_type_name"
               placeholder="Имя"
+              id="name-input"
               required
+              minlength="2"
+              maxlength="40"
+              pattern="[A-Za-zа-яёА-ЯЁ\s\-]+$"
             />
+            <span class="popup__input-error name-input-error"
+              >Необходимо заполнить поля</span
+            >
+
             <input
               type="text"
               name="description"
               class="popup__input popup__input_type_description"
               placeholder="Занятие"
+              id="desc-input"
               required
+              minlength="2"
+              maxlength="200"
+              pattern="[A-Za-zа-яёА-ЯЁ\s\-]+$"
             />
-            <!--Можно добавить required, они про него знают-->
+            <span class="popup__input-error desc-input-error"
+              >Необходимо заполнить поля</span
+            >
+
             <button type="submit" class="button popup__button">
               Сохранить
             </button>
@@ -90,21 +141,31 @@
               name="place-name"
               class="popup__input popup__input_type_card-name"
               placeholder="Название"
+              id="place-input"
               required
+              pattern="[A-Za-zа-яёА-ЯЁ\s\-]+$"
             />
+            <span class="popup__input-error place-input-error"
+              >Необходимо заполнить поля</span
+            >
             <input
               type="url"
               name="link"
               class="popup__input popup__input_type_url"
               placeholder="Ссылка на картинку"
+              id="url-input"
               required
             />
+            <span class="popup__input-error url-input-error"
+              >Необходимо заполнить поля</span
+            >
             <button type="submit" class="button popup__button">
               Сохранить
             </button>
           </form>
         </div>
       </div>
+
       <div class="popup popup_type_image">
         <div class="popup__content popup__content_content_image">
           <button
@@ -117,6 +178,24 @@
         </div>
       </div>
     </div>
+
+    <!-- попап для удаления карточки -->
+    <div class="popup popup_type_delete-card">
+      <div class="popup__content">
+        <button
+          aria-label="Закрыть окно"
+          type="button"
+          class="popup__close"
+        ></button>
+        <h3 class="popup__title">Подтвердить удаление карточки?</h3>
+        <form class="popup__form" name="delete-card">
+          <button type="submit" class="button popup__button">
+            Подтвердить
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- попап для удаления карточки -->
 
     <!--Относится к реализации 4-го спринта-->
     <template id="card-template">
@@ -131,11 +210,14 @@
         <!--Фоновое, инлайном-->
         <div class="card__description">
           <h2 class="card__title"></h2>
-          <button
-            aria-label="Нравится"
-            type="button"
-            class="card__like-button"
-          ></button>
+          <div class="card__like_item">
+            <button
+              aria-label="Нравится"
+              type="button"
+              class="card__like-button"
+            ></button>
+            <p class="card__like-count">0</p>
+          </div>
         </div>
       </li>
     </template>

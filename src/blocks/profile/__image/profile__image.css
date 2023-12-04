@@ -22,3 +22,19 @@
     margin-right: 0;
   }
 }
+
+.edit-icon {
+  width: 25px;
+  height: 25px;
+  display: none;
+  position: absolute;
+  left: 3em;
+}
+
+.profile__image:hover {
+  filter: brightness(0.5);
+}
+
+.profile__image:hover + .edit-icon {
+  display: block;
+}
