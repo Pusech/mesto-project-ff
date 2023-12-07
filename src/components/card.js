@@ -56,6 +56,7 @@ function deleteCard(card, cardId) {
     .then((res) => {
       if (res.ok) {
         card.remove();
+        return res;
       }
 
       // если ошибка, отклоняем промис
@@ -76,11 +77,10 @@ function likeHandler(likeBtn, cardId, likeCountElement) {
     })
       .then((res) => {
         if (res.ok) {
-          res.json();
+          return res.json();
+        } else {
+          return Promise.reject(`Ошибка: ${res.status}`);
         }
-
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
       })
       .then((data) => {
         likeCountElement.textContent = data.likes.length;
@@ -96,7 +96,7 @@ function likeHandler(likeBtn, cardId, likeCountElement) {
     })
       .then((res) => {
         if (res.ok) {
-          res.json();
+          return res.json();
         }
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
