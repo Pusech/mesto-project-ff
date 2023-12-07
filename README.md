@@ -7,5 +7,3 @@ Yandex Practicum 2023 Cohort-1 project
 ## Description
 
 Simple imageboard website using yandex API
-
-
