@@ -13,6 +13,7 @@ const createCard = (cardData, deleteCallback, openModalCallback, profileId) => {
 
   cardElement.querySelector(".card__title").textContent = cardData.name;
 
+  //добавляет корзинку если айди карты == юзер айди
   if (cardData.owner._id === profileId) {
     cardElement
       .querySelector(".card__delete-button")
@@ -35,7 +36,7 @@ const createCard = (cardData, deleteCallback, openModalCallback, profileId) => {
   const likeCountElement = cardElement.querySelector(".card__like-count");
   likeCountElement.textContent = cardData.likes.length;
 
-  // хендлер лайков
+  // листенер лайков
   likeBtn.addEventListener("click", function () {
     likeHandler(likeBtn, cardData._id, likeCountElement);
     likeBtn.classList.toggle("card__like-button_is-active");
@@ -54,6 +55,7 @@ function deleteCard(card, cardId) {
   }).then(card.remove());
 }
 
+// Общее количество лайков на карточке обновляется каждый раз как юзер лайкает пост
 function likeHandler(likeBtn, cardId, likeCountElement) {
   if (!likeBtn.classList.contains("card__like-button_is-active")) {
     fetch(`https://nomoreparties.co/v1/wff-cohort-1/cards/likes/${cardId}`, {

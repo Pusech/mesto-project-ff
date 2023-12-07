@@ -115,7 +115,14 @@ function handleAddCard(evt) {
   })
     .then((res) => res.json())
     .then((newCardData) => {
-      cardList.prepend(createCard(newCardData, deleteCard, openCardModal));
+      cardList.prepend(
+        createCard(
+          newCardData,
+          deleteCard,
+          openCardModal,
+          newCardData.owner._id
+        )
+      );
     });
 
   evt.target.reset();
@@ -144,14 +151,7 @@ const validationCfg = {
 
 enableValidation(validationCfg);
 
-//связь с API
-//авторизация
-//Токен: 38fef25e-caa8-4f1e-be7e-5ebd7063f6ef
-// Идентификатор группы: wff-cohort-1
-
-//Карточки
-
-//Сам профиль выгруз с сервера
+//Выгруз данных с сервера
 
 Promise.all([getProfileData, getCardsData]).then((result) => {
   profileDesc.textContent = result[0].about;
@@ -164,6 +164,7 @@ Promise.all([getProfileData, getCardsData]).then((result) => {
   });
 });
 
+//Смена аватарки
 formNewProfileImage.addEventListener("submit", profileImageHandler);
 
 function profileImageHandler(evt) {
@@ -171,22 +172,5 @@ function profileImageHandler(evt) {
   changeProfileImage(profileImageInput.value);
   closeModal(formNewProfileImage);
   profileImage.style.backgroundImage = `url(${profileImageInput.value})`;
+  evt.target.reset();
 }
-
-//попап при удалении карточки!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// openModal(deleteCardPopup);
-
-deleteCardPopup.addEventListener("submit", submitDeleteHandler);
-
-function submitDeleteHandler(evt) {
-  evt.preventDefault();
-  // deleteCard()  как то сюда надо вкинуть карточку evt наверное
-  closeModal(deleteCardPopup);
-}
-
-//clearValidation там пересмотреть
-// попап при удалении карточки мб нафиг
-// написать заметку что в лайкхендлере я сделал так чтобы лайки обновлялись при взаймодействии с ними
-// очистить красные линии в валидации (мб относится к первому)
-
-//пересмотреть код сделать рефакторинг
