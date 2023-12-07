@@ -123,12 +123,29 @@ function toggleButtonState(
     submitButtonSelector.classList.remove(inactiveButtonClass);
   }
 }
-
-function clearValidation(profileForm, validationConfig) {
-  submitButtonSelector.classList.add(inactiveButtonClass); // делаем кнопку неактивной
-  hideInputError(); //убираем ошибку?
+// Создайте функцию clearValidation, которая очищает ошибки валидации формы и делает кнопку неактивной.
+//  Эта функция должна принимать как параметры DOM-элемент формы,
+//  для которой очищаются ошибки валидации и объект с настройками валидации
+//Используйте функцию clearValidation при заполнении
+// формы профиля во время её открытия
+// и при очистке формы добавления карточки. ???????????????????!!!!!!!!!!!!!!!!??????????????????
+function clearValidation(
+  profileForm,
+  {
+    formSelector,
+    inputSelector,
+    submitButtonSelector,
+    inactiveButtonClass,
+    inputErrorClass,
+    errorClass,
+  }
+) {
+  const inputList = Array.from(profileForm.querySelectorAll(inputSelector));
+  inputList.forEach((inputElement) => {
+    hideInputError(profileForm, inputElement, inputErrorClass, errorClass); //убираем ошибку
+  });
+  const formSubmitButton = profileForm.querySelector(submitButtonSelector);
+  formSubmitButton.classList.add(inactiveButtonClass); // делаем кнопку неактивной
 }
 
-export { checkInputValidity, enableValidation };
-
-//сделать тогл кнопок при валидации
+export { checkInputValidity, enableValidation, clearValidation };

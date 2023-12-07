@@ -12,12 +12,8 @@ const createCard = (cardData, deleteCallback, openModalCallback, profileId) => {
   cardImage.alt = cardData.name;
 
   cardElement.querySelector(".card__title").textContent = cardData.name;
-  // console.log(cardData.likes);
-  // console.log(cardData.likes.find((obj) => obj._id === profileId));
-  // нужно сначала вызвать попап а потом при сабмите вызывать deleteCard
 
   if (cardData.owner._id === profileId) {
-    //найти свой айди както (ЧЕРЕЗ GETPROFILE)
     cardElement
       .querySelector(".card__delete-button")
       .addEventListener("click", function () {
@@ -31,16 +27,18 @@ const createCard = (cardData, deleteCallback, openModalCallback, profileId) => {
     openModalCallback(cardData.link, cardData.name);
   });
 
-  const likeCount = cardElement.querySelector(".card__like-count");
-  if (cardData.likes) {
-    likeCount.textContent = cardData.likes.length;
+  // //Делает сердечко лайкнутым если пост был лайкнут юзером аккаунта
+  if (cardData.likes.find((obj) => obj._id === profileId)) {
+    likeBtn.classList.add("card__like-button_is-active");
   }
+
+  const likeCountElement = cardElement.querySelector(".card__like-count");
+  likeCountElement.textContent = cardData.likes.length;
+
+  // хендлер лайков
   likeBtn.addEventListener("click", function () {
-    likeCount.textContent = likeHandler(
-      likeBtn,
-      cardData._id,
-      likeCount.textContent
-    );
+    likeHandler(likeBtn, cardData._id, likeCountElement);
+    likeBtn.classList.toggle("card__like-button_is-active");
   });
 
   return cardElement;
@@ -56,11 +54,8 @@ function deleteCard(card, cardId) {
   }).then(card.remove());
 }
 
-function likeHandler(likeBtn, cardId, likeCounter) {
+function likeHandler(likeBtn, cardId, likeCountElement) {
   if (!likeBtn.classList.contains("card__like-button_is-active")) {
-    // нужно делать проверку на наличие лайка в базе cardData.likes.find((obj) => obj._id === profileId)
-    //мб запихнуть проверку куда то еще и разделить функции пут и делит падумай
-
     fetch(`https://nomoreparties.co/v1/wff-cohort-1/cards/likes/${cardId}`, {
       method: "PUT",
       headers: {
@@ -68,8 +63,10 @@ function likeHandler(likeBtn, cardId, likeCounter) {
         "Content-Type": "application/json",
       },
     })
-      .then(likeBtn.classList.toggle("card__like-button_is-active"))
-      .then(likeCounter++);
+      .then((res) => res.json())
+      .then((data) => {
+        likeCountElement.textContent = data.likes.length;
+      });
   } else {
     fetch(`https://nomoreparties.co/v1/wff-cohort-1/cards/likes/${cardId}`, {
       method: "DELETE",
@@ -78,10 +75,11 @@ function likeHandler(likeBtn, cardId, likeCounter) {
         "Content-Type": "application/json",
       },
     })
-      .then(likeBtn.classList.toggle("card__like-button_is-active"))
-      .then(likeCounter--);
+      .then((res) => res.json())
+      .then((data) => {
+        likeCountElement.textContent = data.likes.length;
+      });
   }
-  return likeCounter;
 }
 
-export { createCard, likeHandler, deleteCard };
+export { createCard, deleteCard };

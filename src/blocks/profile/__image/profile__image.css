@@ -23,18 +23,24 @@
   }
 }
 
+.profile__image-container {
+  position: relative;
+  cursor: pointer;
+}
+
 .edit-icon {
   width: 25px;
   height: 25px;
   display: none;
   position: absolute;
   left: 3em;
+  top: 3em;
 }
 
-.profile__image:hover {
+.profile__image-container:hover .profile__image {
   filter: brightness(0.5);
 }
 
-.profile__image:hover + .edit-icon {
+.profile__image-container:hover .edit-icon {
   display: block;
 }

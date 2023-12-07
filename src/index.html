@@ -20,15 +20,14 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <div
-            class="profile__image"
-            style="background-image: url(<%=require('./images/avatar.jpg')%>)"
-          ></div>
-          <img
-            class="edit-icon"
-            src="<%=require('./images/edit-icon.svg')%>"
-            alt=""
-          />
+          <div class="profile__image-container">
+            <div class="profile__image"></div>
+            <img
+              class="edit-icon"
+              src="<%=require('./images/edit-icon.svg')%>"
+              alt=""
+            />
+          </div>
 
           <!-- Попап для изменения картинки -->
           <div class="popup popup_type_profile-image">
@@ -38,7 +37,7 @@
                 type="button"
                 class="popup__close"
               ></button>
-              <h3 class="popup__title">Обновить картинку профиля</h3>
+              <h3 class="popup__title">Обновить аватар?</h3>
               <form class="popup__form" name="edit-image">
                 <input
                   type="url"
@@ -60,13 +59,13 @@
           <!-- Попап для изменения картинки/ -->
 
           <div class="profile__info">
-            <h1 class="profile__title">Жак-Ив Кусто</h1>
+            <h1 class="profile__title"></h1>
             <button
               aria-label="Редактировать профиль"
               class="profile__edit-button"
               type="button"
             ></button>
-            <p class="profile__description">Исследователь океана</p>
+            <p class="profile__description"></p>
           </div>
           <button
             aria-label="Добавить фото"
@@ -210,13 +209,13 @@
         <!--Фоновое, инлайном-->
         <div class="card__description">
           <h2 class="card__title"></h2>
-          <div class="card__like_item">
+          <div class="card__like-container">
             <button
               aria-label="Нравится"
               type="button"
               class="card__like-button"
             ></button>
-            <p class="card__like-count">0</p>
+            <p class="card__like-count"></p>
           </div>
         </div>
       </li>

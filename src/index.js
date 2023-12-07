@@ -1,7 +1,11 @@
 import "./pages/index.css";
 import { createCard, deleteCard } from "./components/card";
 import { openModal, closeModal, closeByOverlay } from "./components/modal";
-import { checkInputValidity, enableValidation } from "./components/validation";
+import {
+  checkInputValidity,
+  clearValidation,
+  enableValidation,
+} from "./components/validation";
 import {
   updateProfile,
   changeProfileImage,
@@ -13,13 +17,15 @@ const cardList = document.querySelector(".places__list");
 const newCardPopup = document.querySelector(".popup_type_new-card");
 const editPopup = document.querySelector(".popup_type_edit");
 const cardPopup = document.querySelector(".popup_type_image");
-const editImagePopup = document.querySelector(".popup_type_edit-image");
-const profileImage = document.querySelector(".profile__image");
 const addBtn = document.querySelector(".profile__add-button");
 const editBtn = document.querySelector(".profile__edit-button");
 const popupWindows = document.querySelectorAll(".popup");
 const profileTitle = document.querySelector(".profile__title");
 const profileDesc = document.querySelector(".profile__description");
+const profileImage = document.querySelector(".profile__image");
+const profileImageContainer = document.querySelector(
+  ".profile__image-container"
+);
 const editForm = document.querySelector(".popup_type_edit");
 const nameInput = editForm.querySelector(".popup__input_type_name");
 const jobInput = editForm.querySelector(".popup__input_type_description");
@@ -44,16 +50,19 @@ const deleteCardPopup = document.querySelector(".popup_type_delete-card");
 
 addBtn.addEventListener("click", function () {
   openModal(newCardPopup);
+  clearValidation(newCardPopup, validationCfg);
 });
 
 editBtn.addEventListener("click", function () {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDesc.textContent;
   openModal(editPopup);
+  clearValidation(editPopup, validationCfg);
 });
 
-profileImage.addEventListener("click", function () {
+profileImageContainer.addEventListener("click", function () {
   openModal(formNewProfileImage);
+  clearValidation(formNewProfileImage, validationCfg);
 });
 
 //кнопки закрытия
@@ -155,25 +164,6 @@ Promise.all([getProfileData, getCardsData]).then((result) => {
   });
 });
 
-//Редактирование профиля
-
-// 5 Добавление новой карточки через POST https://nomoreparties.co/v1/cohortId/cards
-
-//6 Отображение количества лайков
-//внутри функции createcard
-
-//7 отображение кнопки удалить в card.js
-
-//8 функция удаления карточки в card.js
-
-//9 отправка лайка на сервер
-// При постановке и снятии лайка сердечко должно менять цвет, а счётчик лайков увеличиваться или уменьшаться.
-// Чтобы изменить количество лайков, нужно отправить на сервер запрос с соответствующим методом.
-// Рекомендуем брать количество лайков из ответа сервера,
-//  а не из вёрстки. Иначе могут возникнуть ошибки, когда два пользователя одновременно лайкнут одну карточку.
-
-// 10. Обновление аватара пользователя
-
 formNewProfileImage.addEventListener("submit", profileImageHandler);
 
 function profileImageHandler(evt) {
@@ -183,6 +173,7 @@ function profileImageHandler(evt) {
   profileImage.style.backgroundImage = `url(${profileImageInput.value})`;
 }
 
+//попап при удалении карточки!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // openModal(deleteCardPopup);
 
 deleteCardPopup.addEventListener("submit", submitDeleteHandler);
@@ -192,3 +183,10 @@ function submitDeleteHandler(evt) {
   // deleteCard()  как то сюда надо вкинуть карточку evt наверное
   closeModal(deleteCardPopup);
 }
+
+//clearValidation там пересмотреть
+// попап при удалении карточки мб нафиг
+// написать заметку что в лайкхендлере я сделал так чтобы лайки обновлялись при взаймодействии с ними
+// очистить красные линии в валидации (мб относится к первому)
+
+//пересмотреть код сделать рефакторинг
