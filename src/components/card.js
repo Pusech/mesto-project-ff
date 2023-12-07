@@ -52,7 +52,16 @@ function deleteCard(card, cardId) {
       authorization: "38fef25e-caa8-4f1e-be7e-5ebd7063f6ef",
       "Content-Type": "application/json",
     },
-  }).then(card.remove());
+  })
+    .then((res) => {
+      if (res.ok) {
+        card.remove();
+      }
+
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .catch((err) => console.log(err));
 }
 
 // Общее количество лайков на карточке обновляется каждый раз как юзер лайкает пост
@@ -65,10 +74,18 @@ function likeHandler(likeBtn, cardId, likeCountElement) {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          res.json();
+        }
+
+        // если ошибка, отклоняем промис
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
       .then((data) => {
         likeCountElement.textContent = data.likes.length;
-      });
+      })
+      .catch((err) => console.log(err));
   } else {
     fetch(`https://nomoreparties.co/v1/wff-cohort-1/cards/likes/${cardId}`, {
       method: "DELETE",
@@ -77,10 +94,17 @@ function likeHandler(likeBtn, cardId, likeCountElement) {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          res.json();
+        }
+        // если ошибка, отклоняем промис
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
       .then((data) => {
         likeCountElement.textContent = data.likes.length;
-      });
+      })
+      .catch((err) => console.log(err));
   }
 }
 

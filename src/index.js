@@ -11,6 +11,7 @@ import {
   changeProfileImage,
   getProfileData,
   getCardsData,
+  postNewCard,
 } from "./components/api";
 
 const cardList = document.querySelector(".places__list");
@@ -26,9 +27,12 @@ const profileImage = document.querySelector(".profile__image");
 const profileImageContainer = document.querySelector(
   ".profile__image-container"
 );
+
 const editForm = document.querySelector(".popup_type_edit");
 const nameInput = editForm.querySelector(".popup__input_type_name");
 const jobInput = editForm.querySelector(".popup__input_type_description");
+const editFormBtn = editForm.querySelector(".popup__button");
+
 const formNewCardElement = document.querySelector(".popup_type_new-card");
 const cardNameInput = formNewCardElement.querySelector(
   ".popup__input_type_card-name"
@@ -36,14 +40,15 @@ const cardNameInput = formNewCardElement.querySelector(
 const cardLinkInput = formNewCardElement.querySelector(
   ".popup__input_type_url"
 );
+const addFormBtn = formNewCardElement.querySelector(".popup__button");
+
 const formNewProfileImage = document.querySelector(".popup_type_profile-image");
 const profileImageInput = formNewProfileImage.querySelector(
   ".popup__input_type_profile-image"
 );
+const profileImageFormBtn = formNewProfileImage.querySelector(".popup__button");
 const fullImage = document.querySelector(".popup__image");
 const imageCaption = document.querySelector(".popup__caption");
-
-const deleteCardPopup = document.querySelector(".popup_type_delete-card");
 
 // _______________________________________________________________________________
 //открытие окна
@@ -82,17 +87,23 @@ popupWindows.forEach((el) => {
 // она никуда отправляться не будет
 function handleEditFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+  renderSaving(true, editFormBtn);
 
   // Получите значение полей jobInput и nameInput из свойства value
   const nameValue = nameInput.value;
   const jobValue = jobInput.value;
   // Вставьте новые значения с помощью textContent
-  profileTitle.textContent = nameValue;
-  profileDesc.textContent = jobValue;
 
-  updateProfile(nameValue, jobValue);
-  closeModal(editForm);
+  updateProfile(nameValue, jobValue)
+    .then((res) => {
+      profileTitle.textContent = res.name;
+      profileDesc.textContent = res.about;
+    })
+    .then(closeModal(editForm))
+    .catch((err) => console.log(err))
+    .finally(renderSaving(false, editFormBtn));
 }
+
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 editForm.addEventListener("submit", handleEditFormSubmit);
@@ -101,19 +112,8 @@ editForm.addEventListener("submit", handleEditFormSubmit);
 
 function handleAddCard(evt) {
   evt.preventDefault();
-
-  fetch("https://nomoreparties.co/v1/wff-cohort-1/cards", {
-    method: "POST",
-    headers: {
-      authorization: "38fef25e-caa8-4f1e-be7e-5ebd7063f6ef",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name: cardNameInput.value, // new card name
-      link: cardLinkInput.value, // new card image link
-    }),
-  })
-    .then((res) => res.json())
+  renderSaving(true, addFormBtn);
+  postNewCard(cardNameInput.value, cardLinkInput.value)
     .then((newCardData) => {
       cardList.prepend(
         createCard(
@@ -123,11 +123,12 @@ function handleAddCard(evt) {
           newCardData.owner._id
         )
       );
-    });
+    })
+    .then(closeModal(formNewCardElement))
+    .catch((err) => console.log(err))
+    .finally(renderSaving(false, addFormBtn));
 
   evt.target.reset();
-
-  closeModal(formNewCardElement);
 }
 
 formNewCardElement.addEventListener("submit", handleAddCard);
@@ -169,8 +170,21 @@ formNewProfileImage.addEventListener("submit", profileImageHandler);
 
 function profileImageHandler(evt) {
   evt.preventDefault();
-  changeProfileImage(profileImageInput.value);
-  closeModal(formNewProfileImage);
-  profileImage.style.backgroundImage = `url(${profileImageInput.value})`;
+  renderSaving(true, profileImageFormBtn);
+  changeProfileImage(profileImageInput.value)
+    .then(
+      (profileImage.style.backgroundImage = `url(${profileImageInput.value})`)
+    )
+    .then(closeModal(formNewProfileImage))
+    .catch((err) => console.log(err))
+    .finally(renderSaving(false, profileImageFormBtn));
   evt.target.reset();
+}
+
+function renderSaving(isLoading, button) {
+  if (isLoading) {
+    button.textContent = "Сохранение...";
+  } else {
+    button.textContent = button.dataset.btnText;
+  }
 }
