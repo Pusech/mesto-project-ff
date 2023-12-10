@@ -94,14 +94,17 @@ function handleEditFormSubmit(evt) {
   const jobValue = jobInput.value;
   // Вставьте новые значения с помощью textContent
 
+  //////////////////////////////////////////////во все then и финалли вставмить иф рес ок
   updateProfile(nameValue, jobValue)
     .then((res) => {
       profileTitle.textContent = res.name;
       profileDesc.textContent = res.about;
+      closeModal(editForm);
     })
-    .then(closeModal(editForm))
     .catch((err) => console.log(err))
-    .finally(renderSaving(false, editFormBtn));
+    .finally(() => {
+      renderSaving(false, editFormBtn);
+    });
 }
 
 // Прикрепляем обработчик к форме:
@@ -123,18 +126,20 @@ function handleAddCard(evt) {
           newCardData.owner._id
         )
       );
+      closeModal(formNewCardElement);
+      evt.target.reset();
     })
-    .then(closeModal(formNewCardElement))
     .catch((err) => console.log(err))
-    .finally(renderSaving(false, addFormBtn));
-
-  evt.target.reset();
+    .finally(() => {
+      renderSaving(false, addFormBtn);
+    });
 }
 
 formNewCardElement.addEventListener("submit", handleAddCard);
 
 function openCardModal(cardDataLink, cardDataName) {
   fullImage.src = cardDataLink;
+  fullImage.alt = cardDataName;
   imageCaption.textContent = cardDataName;
   openModal(cardPopup);
 }
@@ -172,13 +177,15 @@ function profileImageHandler(evt) {
   evt.preventDefault();
   renderSaving(true, profileImageFormBtn);
   changeProfileImage(profileImageInput.value)
-    .then(
-      (profileImage.style.backgroundImage = `url(${profileImageInput.value})`)
-    )
-    .then(closeModal(formNewProfileImage))
+    .then((res) => {
+      profileImage.style.backgroundImage = `url(${res.avatar})`;
+      closeModal(formNewProfileImage);
+      evt.target.reset();
+    })
     .catch((err) => console.log(err))
-    .finally(renderSaving(false, profileImageFormBtn));
-  evt.target.reset();
+    .finally(() => {
+      renderSaving(false, profileImageFormBtn);
+    });
 }
 
 function renderSaving(isLoading, button) {

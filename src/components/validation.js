@@ -7,9 +7,7 @@ const checkInputValidity = (
   if (inputElement.validity.patternMismatch) {
     // встроенный метод setCustomValidity принимает на вход строку
     // и заменяет ею стандартное сообщение об ошибке
-    inputElement.setCustomValidity(
-      "Разрешены латинские и кириллические буквы, дефисы и пробелы."
-    );
+    inputElement.setCustomValidity(inputElement.dataset.errorMessage);
   } else {
     // если передать пустую строку, то будут доступны
     // стандартные браузерные сообщения
@@ -92,9 +90,6 @@ function enableValidation({
 }) {
   const formList = Array.from(document.querySelectorAll(formSelector));
   formList.forEach((formElement) => {
-    formElement.addEventListener("submit", function (e) {
-      e.preventDefault();
-    });
     setEventListeners(
       formElement,
       inputSelector,
@@ -118,8 +113,10 @@ function toggleButtonState(
   inactiveButtonClass
 ) {
   if (!hasInvalidInput(inputList)) {
+    submitButtonSelector.setAttribute("disabled", "");
     submitButtonSelector.classList.add(inactiveButtonClass);
   } else {
+    submitButtonSelector.removeAttribute("disabled");
     submitButtonSelector.classList.remove(inactiveButtonClass);
   }
 }
@@ -141,6 +138,7 @@ function clearValidation(
     hideInputError(profileForm, inputElement, inputErrorClass, errorClass); //убираем ошибку
   });
   const formSubmitButton = profileForm.querySelector(submitButtonSelector);
+  formSubmitButton.setAttribute("disabled", "");
   formSubmitButton.classList.add(inactiveButtonClass); // делаем кнопку неактивной
 }
 

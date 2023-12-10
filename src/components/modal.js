@@ -15,8 +15,8 @@ function closeByOverlay(evt) {
 }
 
 function escClose(evt) {
-  const openedPopup = document.querySelector(".popup_is-opened");
-  if (evt.key === "Escape" && openedPopup) {
+  if (evt.key === "Escape") {
+    const openedPopup = document.querySelector(".popup_is-opened");
     openedPopup.classList.remove("popup_is-opened");
   }
 }
