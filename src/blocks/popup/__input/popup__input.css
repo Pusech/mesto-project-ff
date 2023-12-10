@@ -22,10 +22,6 @@
   border-bottom-color: #007dff;
 }
 
-.popup__input:invalid {
-  border-bottom: 1px solid red;
-}
-
 .popup__input_type_error {
   border-bottom-color: red;
   /* Нижняя рамка становится красной всякий раз, 

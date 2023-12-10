@@ -54,8 +54,8 @@ const imageCaption = document.querySelector(".popup__caption");
 //открытие окна
 
 addBtn.addEventListener("click", function () {
-  openModal(newCardPopup);
   clearValidation(newCardPopup, validationCfg);
+  openModal(newCardPopup);
 });
 
 editBtn.addEventListener("click", function () {
