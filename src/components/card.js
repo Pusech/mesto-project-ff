@@ -1,3 +1,5 @@
+import { deleteCard, putLike, removeLike } from "./api";
+
 const cardTemplate = document.querySelector("#card-template").content;
 
 const createCard = (cardData, deleteCallback, openModalCallback, profileId) => {
@@ -39,70 +41,25 @@ const createCard = (cardData, deleteCallback, openModalCallback, profileId) => {
   // листенер лайков
   likeBtn.addEventListener("click", function () {
     likeHandler(likeBtn, cardData._id, likeCountElement);
-    likeBtn.classList.toggle("card__like-button_is-active");
   });
 
   return cardElement;
 };
 
-function deleteCard(card, cardId) {
-  fetch(`https://nomoreparties.co/v1/wff-cohort-1/cards/${cardId}`, {
-    method: "DELETE",
-    headers: {
-      authorization: "38fef25e-caa8-4f1e-be7e-5ebd7063f6ef",
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => {
-      if (res.ok) {
-        card.remove();
-        return res;
-      }
-
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => console.log(err));
-}
-
 // Общее количество лайков на карточке обновляется каждый раз как юзер лайкает пост
 function likeHandler(likeBtn, cardId, likeCountElement) {
   if (!likeBtn.classList.contains("card__like-button_is-active")) {
-    fetch(`https://nomoreparties.co/v1/wff-cohort-1/cards/likes/${cardId}`, {
-      method: "PUT",
-      headers: {
-        authorization: "38fef25e-caa8-4f1e-be7e-5ebd7063f6ef",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          return Promise.reject(`Ошибка: ${res.status}`);
-        }
-      })
+    putLike(cardId)
       .then((data) => {
         likeCountElement.textContent = data.likes.length;
+        likeBtn.classList.toggle("card__like-button_is-active");
       })
       .catch((err) => console.log(err));
   } else {
-    fetch(`https://nomoreparties.co/v1/wff-cohort-1/cards/likes/${cardId}`, {
-      method: "DELETE",
-      headers: {
-        authorization: "38fef25e-caa8-4f1e-be7e-5ebd7063f6ef",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+    removeLike(cardId)
       .then((data) => {
         likeCountElement.textContent = data.likes.length;
+        likeBtn.classList.toggle("card__like-button_is-active");
       })
       .catch((err) => console.log(err));
   }

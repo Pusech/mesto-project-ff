@@ -22,10 +22,6 @@
   border-bottom-color: #007dff;
 }
 
-.popup__input:valid {
-  border-bottom: 1px solid green;
-}
-
 .popup__input:invalid {
   border-bottom: 1px solid red;
 }
@@ -38,6 +34,11 @@
 
 .popup__input_type_error_active {
   opacity: 1;
+}
+
+.popup__input-error {
+  color: red;
+  font-size: 0.75em;
 }
 
 @media screen and (max-width: 568px) {

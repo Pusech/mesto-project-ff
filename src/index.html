@@ -104,6 +104,7 @@
               minlength="2"
               maxlength="40"
               pattern="[A-Za-zа-яёА-ЯЁ\s\-]+$"
+              data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
             />
             <span class="popup__input-error name-input-error"
               >Необходимо заполнить поля</span
@@ -119,6 +120,7 @@
               minlength="2"
               maxlength="200"
               pattern="[A-Za-zа-яёА-ЯЁ\s\-]+$"
+              data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
             />
             <span class="popup__input-error desc-input-error"
               >Необходимо заполнить поля</span
@@ -149,8 +151,11 @@
               class="popup__input popup__input_type_card-name"
               placeholder="Название"
               id="place-input"
+              minlength="2"
+              maxlength="30"
               required
               pattern="[A-Za-zа-яёА-ЯЁ\s\-]+$"
+              data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
             />
             <span class="popup__input-error place-input-error"
               >Необходимо заполнить поля</span
