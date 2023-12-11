@@ -1,4 +1,4 @@
-import { deleteCard, putLike, removeLike } from "./api";
+import { putLike, removeLike } from "./api";
 
 const cardTemplate = document.querySelector("#card-template").content;
 
@@ -20,7 +20,11 @@ const createCard = (cardData, deleteCallback, openModalCallback, profileId) => {
     cardElement
       .querySelector(".card__delete-button")
       .addEventListener("click", function () {
-        deleteCallback(cardElement, cardData._id);
+        deleteCallback(cardData._id)
+          .then(() => {
+            cardElement.remove();
+          })
+          .catch((err) => console.log(err));
       });
   } else {
     cardElement.querySelector(".card__delete-button").remove();
@@ -65,4 +69,4 @@ function likeHandler(likeBtn, cardId, likeCountElement) {
   }
 }
 
-export { createCard, deleteCard };
+export { createCard };
