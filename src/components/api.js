@@ -58,7 +58,7 @@ const getCardsData = fetch(`${config.baseUrl}/cards`, {
   .catch((err) => console.log(err));
 
 function deleteCard(cardId) {
-  fetch(`${config.baseUrl}/cards/${cardId}`, {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: "DELETE",
     headers: {
       authorization: "38fef25e-caa8-4f1e-be7e-5ebd7063f6ef",
