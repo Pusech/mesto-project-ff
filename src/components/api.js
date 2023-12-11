@@ -57,8 +57,8 @@ const getCardsData = fetch(`${config.baseUrl}/cards`, {
   .then((res) => getResponseData(res))
   .catch((err) => console.log(err));
 
-function deleteCard(card, cardId) {
-  fetch(`https://nomoreparties.co/v1/wff-cohort-1/cards/${cardId}`, {
+function deleteCard(cardId) {
+  fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: "DELETE",
     headers: {
       authorization: "38fef25e-caa8-4f1e-be7e-5ebd7063f6ef",
@@ -67,7 +67,6 @@ function deleteCard(card, cardId) {
   })
     .then((res) => {
       if (res.ok) {
-        card.remove();
         return res;
       }
 
@@ -77,16 +76,13 @@ function deleteCard(card, cardId) {
     .catch((err) => console.log(err));
 }
 function putLike(cardId) {
-  return fetch(
-    `https://nomoreparties.co/v1/wff-cohort-1/cards/likes/${cardId}`,
-    {
-      method: "PUT",
-      headers: {
-        authorization: "38fef25e-caa8-4f1e-be7e-5ebd7063f6ef",
-        "Content-Type": "application/json",
-      },
-    }
-  ).then((res) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: "PUT",
+    headers: {
+      authorization: "38fef25e-caa8-4f1e-be7e-5ebd7063f6ef",
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
     if (res.ok) {
       return res.json();
     } else {
@@ -96,16 +92,13 @@ function putLike(cardId) {
 }
 
 function removeLike(cardId) {
-  return fetch(
-    `https://nomoreparties.co/v1/wff-cohort-1/cards/likes/${cardId}`,
-    {
-      method: "DELETE",
-      headers: {
-        authorization: "38fef25e-caa8-4f1e-be7e-5ebd7063f6ef",
-        "Content-Type": "application/json",
-      },
-    }
-  ).then((res) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: "DELETE",
+    headers: {
+      authorization: "38fef25e-caa8-4f1e-be7e-5ebd7063f6ef",
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
     if (res.ok) {
       return res.json();
     }

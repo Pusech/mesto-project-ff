@@ -1,5 +1,5 @@
 import "./pages/index.css";
-import { createCard, deleteCard } from "./components/card";
+import { createCard } from "./components/card";
 import { openModal, closeModal, closeByOverlay } from "./components/modal";
 import {
   checkInputValidity,
@@ -12,6 +12,7 @@ import {
   getProfileData,
   getCardsData,
   postNewCard,
+  deleteCard,
 } from "./components/api";
 
 const cardList = document.querySelector(".places__list");

@@ -1,4 +1,4 @@
-import { deleteCard, putLike, removeLike } from "./api";
+import { putLike, removeLike } from "./api";
 
 const cardTemplate = document.querySelector("#card-template").content;
 
@@ -65,4 +65,4 @@ function likeHandler(likeBtn, cardId, likeCountElement) {
   }
 }
 
-export { createCard, deleteCard };
+export { createCard };
